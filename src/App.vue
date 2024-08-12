@@ -12,8 +12,8 @@ export default {
                 <router-link to="/ranklist" replace>排行</router-link>
                 <Search target="搜索帖子" :sendTarget="toRankList"></Search>
                 <Search target="搜索用户" :sendTarget="toUserList"></Search>
-                <router-link v-if="isShow" to="">发布博文</router-link>
-                <router-link v-else to="">登录</router-link>
+                <router-link v-if="isShow" to="/post/editpost">发布博文</router-link>
+                <router-link v-else to="/login">登录</router-link>
             </div>
             <div class="banner"></div>
         </div>

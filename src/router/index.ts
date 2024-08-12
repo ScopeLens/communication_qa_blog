@@ -25,8 +25,18 @@ const router = createRouter({
         },
         {
             path: '/post',
-            component: () => import("../pages/Post.vue")
-        }
+            component: () => import("../pages/Post.vue"),
+            children: [
+                {
+                    path: '/editpost',
+                    component: () => import("../pages/EditPost.vue")
+                }
+            ]
+        },
+        {
+            path: '/login',
+            component: () => import("../pages/Login.vue")
+        },
     ]
 })
 
