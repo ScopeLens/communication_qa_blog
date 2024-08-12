@@ -69,7 +69,7 @@ import { computed } from 'vue';
     background-image: url("./assets/imgs/top-cover.jpeg");
     background-size: cover;
     background-repeat: no-repeat;
-    margin-bottom: 5px;
+    margin-bottom: 25px;
 }
 .App-container .page-header .nav{ 
     width: 70%;
@@ -91,7 +91,7 @@ import { computed } from 'vue';
 }
 .App-container .page-body{
     width: 60%;
-    height: calc(100vh - 85px);
+    height: calc(100vh - 105px);
     margin: 0 auto;
     position: relative;
     overflow: auto;

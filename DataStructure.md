@@ -7,12 +7,14 @@ User{
 }
 Post{
     id:String 独一无二的乱码id,
+    uid:String 发帖人的uid
     title:String 帖子标题,
     content:String 帖子内容,
     tag:Array 帖子标签,
     img:Array<src字符串> 图片
     author:String 用户名
     date:String 标准格式日期
+    watch:Number 观看数
     like:Number 点赞数
     reply:Number 回复数
     star:Number 收藏数

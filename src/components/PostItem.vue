@@ -19,6 +19,7 @@
         </div>
         <div class="footer">
             <div class="left">
+                <span><i class="iconfont icon-kanguo"></i>{{ data.watch }}</span>
                 <span><i class="iconfont icon-dianzan"></i>{{ data.like }}</span>
                 <span><i class="iconfont icon-huifu"></i>{{ data.reply }}</span>
                 <span><i class="iconfont icon-shoucang"></i>{{ data.star }}</span>
@@ -48,6 +49,7 @@ import {useRouter } from 'vue-router';
 .PostItem-container{
     background-color: #dbe2ef;
     margin: 20px;
+    margin-top: 0px;
     padding: 10px;
     border: 2px solid black;
     border-radius: 5px;
@@ -66,8 +68,8 @@ import {useRouter } from 'vue-router';
     display: flex;
     justify-content: space-between;
 }
-.footer .left span:nth-child(2){
-    margin: 0px 10px;
+.footer .left span{
+    margin: 0px 5px;
 }
 .footer .right .author{
     margin-right: 10px;

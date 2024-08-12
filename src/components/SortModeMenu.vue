@@ -25,7 +25,7 @@ import { ref, watch } from 'vue';
 .nav{
     position: absolute;
     right: 20px;
-    top: -5px;
+    top: -25px;
     color: red;
     cursor: pointer;
 }

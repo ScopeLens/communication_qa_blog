@@ -11,11 +11,11 @@
             <span class="roles">{{identity.roles}}</span>
         </div>
         <ul>
-            <li>我的主页</li>
-            <li>我的博客</li>
-            <li>我的收藏</li>
-            <li>浏览历史</li>
-            <li>退出登录</li>
+            <li><router-link to="/personalhome">我的主页</router-link></li>
+            <li><router-link to="/personalhome/mypost">我的博客</router-link></li>
+            <li><router-link to="/personalhome/mystar">我的收藏</router-link></li>
+            <li><router-link to="/personalhome">浏览历史</router-link></li>
+            <li><router-link to="">退出登录</router-link></li>
         </ul>
     </div>
 </template>
@@ -60,8 +60,6 @@ ul{
     list-style: none;
 }
 ul li{
-    font-size: 25px;
-    color: #112d4e;
     background-color: #dbe2ef82;
     border-radius: 5px;
     margin: 10px;
@@ -71,5 +69,10 @@ ul li{
 }
 ul li:hover{
     background-color: #dbe2ef;
+}
+ul li a{
+    font-size: 25px;
+    color: #112d4e;
+    text-decoration: none;
 }
 </style>

@@ -16,6 +16,20 @@ const router = createRouter({
             component: () => import("../pages/Home.vue")
         },
         {
+            path: '/personalhome',
+            component: () => import("../pages/PersonalHome.vue"),
+            children: [
+                {
+                    path: '/mypost',
+                    component: () => import("../pages/UserPost.vue")
+                },
+                {
+                    path: '/mystar',
+                    component: () => import("../pages/UserStar.vue")
+                },
+            ]
+        },
+        {
             path: '/userlist',
             component: () => import("../pages/UserList.vue")
         },
