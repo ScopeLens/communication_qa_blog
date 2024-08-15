@@ -55,14 +55,6 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    // if (CookieTool.getCookie("isLogin")) {
-    //     next();
-    // }
-    // else {
-    //     router.replace({
-    //         path: "/login"
-    //     })
-    // }
     next()
 })
 

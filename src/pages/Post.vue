@@ -15,9 +15,9 @@
             </div>
             <div class="browse-data">
                 <span><i class="iconfont icon-kanguo"></i>{{ postinfo.watch }}</span>
-                <span><i class="iconfont icon-dianzan"></i>{{ postinfo.like }}</span>
+                <span @click="addLike"><i class="iconfont icon-dianzan"></i>{{ postinfo.like }}</span>
                 <span><i class="iconfont icon-huifu"></i>{{ postinfo.reply }}</span>
-                <span><i class="iconfont icon-shoucang"></i>{{ postinfo.star }}</span>
+                <span @click="addStar"><i class="iconfont icon-shoucang"></i>{{ postinfo.star }}</span>
             </div>
         </div>
         <div class="post-content">
@@ -35,13 +35,16 @@
         <div class="comment-list">
             <h2>评论:</h2>
             <Comment></Comment>
+            <Comment></Comment>
+            <Comment></Comment>
+            <Comment></Comment>
         </div>
     </div>
 </template>
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useRoute} from 'vue-router';
-import Comment from '../components/comment.vue';
+import Comment from '../components/Comment.vue';
 
     let postinfo={
         id:1,
@@ -65,7 +68,12 @@ import Comment from '../components/comment.vue';
         avatar:"https://images.pexels.com/photos/27466821/pexels-photo-27466821.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
     }
     const route=useRoute()
-    
+    function addLike(){
+        console.log("该帖子被点赞了");
+    }
+    function addStar(){
+        console.log("该帖子被收藏了");
+    }
     onMounted(()=>{
         console.log(route.query)
     })
@@ -106,7 +114,13 @@ import Comment from '../components/comment.vue';
     align-items: center;
 }
 .post-info .browse-data span{
+    font-size: 23px;
     margin: 0px 10px;
+    color: #00000080;
+    cursor: pointer;
+}
+.post-info .browse-data span i{
+    font-size: 25px;
 }
 .post-content{
     margin: 10px;

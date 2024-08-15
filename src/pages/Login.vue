@@ -8,14 +8,14 @@
         <div class="title-bg">
             <h2 class="title">欢迎来到LensPark</h2>
         </div>
-        <form action="">
+        <form>
             <label>
-                账号：<input type="text" name="" id="" required placeholder="请输入账号">
+                账号：<input type="text" ref="username" required placeholder="请输入账号">
             </label>
             <label>
-                密码：<input type="password" name="" id="" required placeholder="请输入密码">
+                密码：<input type="password" ref="password" required placeholder="请输入密码">
             </label>
-            <button type="submit">登录</button>
+            <button @click="submitInfo">登录</button>
             <div class="button-nav">
                 <router-link to="">忘记密码</router-link>
                 <router-link to="">注册账号</router-link>
@@ -24,10 +24,26 @@
     </div>
 </template>
 <script setup lang="ts">
+import { ref } from 'vue';
+import CookieTool from '../utils/cookie';
+import { useRouter } from 'vue-router';
+
+    const router=useRouter();
+    let username=ref();
+    let password=ref();
+    function submitInfo(){
+        CookieTool.setCookie("username",username.value.value);
+        CookieTool.setCookie("password",password.value.value);
+        CookieTool.setCookie("isLogin",true);
+        router.replace("/home");
+        setTimeout(()=>{
+            router.go(0);
+        },1);
+    }
 </script>
 <style scoped>
 .Login-container{
-    margin: 20px 23px;
+    margin: 0px 23px;
     height: 400px;
     border-radius: 20px;
     background-color: whitesmoke;

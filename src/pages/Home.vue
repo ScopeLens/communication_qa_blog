@@ -94,7 +94,7 @@ import SortModeMenu from '../components/SortModeMenu.vue';
             date:"2024-1-1 10:00"
         },
     ]
-    function getList(list){
+    function getList(list:any){
         console.log(list)
     }
 </script>

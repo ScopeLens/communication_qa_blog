@@ -4,16 +4,69 @@
     }
 </script>
 <template>
-    <div UI-container>
-
+    <div class="UI-container">
+        <div class="left-avatar">
+            <img src="../assets/imgs/avatar.jpg" alt="">
+        </div>
+        <div class="center-data">
+            <span class="username">ScopeLens</span>
+            <span class="post-num">发帖数:1000万</span>
+        </div>
+        <div class="right-nav">
+            <button>关注</button>
+        </div>
     </div>
 </template>
 <script setup lang="ts">
+    defineProps(["UserInfo"])
 </script>
-<style>
+<style scoped>
 .UI-container{
-    width: calc(50% - 40px);
-    margin: 10px 20px;
-    background-color: wheat;
+    width: 95%;
+    height: 140px;
+    margin: 0px auto;
+    margin-bottom: 20px;
+    /* padding: 20px; */
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    background-image: url("../assets/imgs/avatar.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    transition: all 0.3s;
+}
+.UI-container:hover{
+    transform: scale(1.03);
+}
+.UI-container .left-avatar img{
+    width: 100px;
+    height: 100px;
+    margin: 20px;
+    border-radius: 20px;
+}
+.UI-container .center-data{
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: left;
+    flex-grow: 1;
+}
+.UI-container .center-data .username{
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 0px 0px 5px white;
+}
+.UI-container .right-nav{
+    margin-right: 20px;
+}
+.UI-container .right-nav button{
+    width: 80px;
+    height: 40px;
+    font-size: 20px;
+    border-radius: 10px;
 }
 </style>

@@ -15,20 +15,29 @@
             <li><router-link to="/personalhome/mypost">我的博客</router-link></li>
             <li><router-link to="/personalhome/mystar">我的收藏</router-link></li>
             <li><router-link to="/personalhome">浏览历史</router-link></li>
-            <li><router-link to="">退出登录</router-link></li>
+            <li @click="logOut"><a>退出登录</a></li>
         </ul>
     </div>
 </template>
 <script setup lang="ts">
+    import { useRouter } from 'vue-router';
+import CookieTool from '../utils/cookie';
+    const router=useRouter()
     let identity={
         avatar:"https://images.pexels.com/photos/1055272/pexels-photo-1055272.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
         nickname:"ScopeLens",
         roles:"管理员"
     }
+    function logOut(){
+        CookieTool.delCookie("username");
+        CookieTool.delCookie("password");
+        CookieTool.delCookie("isLogin");
+        router.go(0);
+    }
 </script>
 <style>
 .PW-container{
-    left: 20px;
+    left: 14px;
     top: 105px;
     border: 3px solid black;
     border-radius: 10px;

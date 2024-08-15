@@ -13,7 +13,7 @@ export default {
                 <Search target="搜索帖子" :sendTarget="toRankList"></Search>
                 <Search target="搜索用户" :sendTarget="toUserList"></Search>
                 <router-link v-if="isShow" to="/post/editpost">发布博文</router-link>
-                <router-link v-else to="/login">登录</router-link>
+                <router-link v-else to="/login" replace>登录</router-link>
             </div>
             <div class="banner"></div>
         </div>
@@ -38,22 +38,22 @@ import { computed } from 'vue';
     })
 
     const router=useRouter();
-    // function toRankList(value){
-    //     router.replace({
-    //         path:'/ranklist',
-    //         query:{
-    //             keyword:value
-    //         }
-    //     });
-    // }
-    // function toUserList(value){
-    //     router.replace({
-    //         path:'/userlist',
-    //         query:{
-    //             keyword:value
-    //         }
-    //     });
-    // }
+    function toRankList(value: string){
+        router.replace({
+            path:'/ranklist',
+            query:{
+                keyword:value
+            }
+        });
+    }
+    function toUserList(value: string){
+        router.replace({
+            path:'/userlist',
+            query:{
+                keyword:value
+            }
+        });
+    }
 
 </script>
 <style scoped>

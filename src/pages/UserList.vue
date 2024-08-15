@@ -4,7 +4,9 @@
     }
 </script>
 <template>
-    <div>
+    <div class="UL-container">
+        <UserItem></UserItem>
+        <UserItem></UserItem>
         <UserItem></UserItem>
     </div>
 </template>
@@ -13,5 +15,8 @@ import UserItem from '../components/UserItem.vue';
 
 </script>
 <style>
-
+.UL-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
 </style>
