@@ -32,6 +32,7 @@
             </div>
         </div>
         <hr>
+        <Reply></Reply>
         <div class="comment-list">
             <h2>评论:</h2>
             <Comment></Comment>
@@ -45,6 +46,7 @@
 import { onMounted } from 'vue';
 import { useRoute} from 'vue-router';
 import Comment from '../components/Comment.vue';
+import Reply from '../components/Reply.vue';
 
     let postinfo={
         id:1,

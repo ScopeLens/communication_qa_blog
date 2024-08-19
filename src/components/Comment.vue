@@ -12,15 +12,38 @@
             <div class="comment-nav">
                 <span class="date">2004-1-1 10:11</span>
                 <span class="like"><i class="iconfont icon-dianzan"></i>100</span>
-                <button>回复</button>
+                <button @click="replyShow=!replyShow">回复</button>
             </div>
             <div class="more-comment">
-                <span>共有xx条回复,点击查看</span>
+                <span class="open-list" @click="isShow=!isShow" v-show="!isShow">共有{{SClist.length}}条回复,点击查看</span>
+                <div class="comment-list" v-show="isShow">
+                    <SeccondaryComment v-for="(item, index) in SClist" :key="index" :data="item" @click="replyShow=!replyShow"></SeccondaryComment>
+                </div>
             </div>
+            <Reply v-show="replyShow"></Reply>
         </div>
     </div>
 </template>
 <script setup lang="ts">
+import { ref } from 'vue';
+import SeccondaryComment from './SeccondaryComment.vue';
+import Reply from './Reply.vue';
+    let isShow=ref(false);
+    let replyShow=ref(false);
+    let SClist=ref([
+        {
+            user:"ScopeLens",
+            other:"Person",
+            content:"asj;gafdijapeogjrgjvaeo;vijarepgojgeofivmdpvnar",
+            date:"2024-1-10 10:20"
+        },
+        {
+            user:"ScopeLens",
+            other:"Person",
+            content:"asj;gafdijapeogjrgjvaeo;vijarepgojgeofivmdpvnar",
+            date:"2024-1-10 10:20"
+        }
+    ]);
 </script>
 <style scoped>
     .Comment-container{
@@ -45,5 +68,13 @@
     }
     .comment-nav .like{
         margin: 0px 25px;
+    }
+    .comment-nav>button{
+        border: 0;
+        background-color: transparent;
+    }
+    .open-list{
+        color: gray;
+        cursor: pointer;
     }
 </style>

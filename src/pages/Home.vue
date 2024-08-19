@@ -1,19 +1,29 @@
 <script lang="ts">
     export default {
-        name:"Home"
+        name:"Home",
+        beforeRouteEnter(to, from, next){
+            next(
+                ()=>{
+                    if(from.path==="/login"&&CookieTool.getCookie("isLogin")){
+                        window.location.reload();
+                    }
+                }
+            ); 
+        }
     }
 </script>
 <template>
     <div class="Home-container">
         <SortModeMenu :sendMode="getList" :list="postlist"></SortModeMenu>
         <div class="content">
-            <PostItem v-for="item in postlist" :key="item.id" :data="item"></PostItem>
+            <PostList :postlist="postlist"></PostList>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-import PostItem from '../components/PostItem.vue';
 import SortModeMenu from '../components/SortModeMenu.vue';
+import CookieTool from '../utils/cookie';
+import PostList from '../components/PostList.vue';
     let postlist=[
         {
             id:1,

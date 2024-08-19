@@ -8,17 +8,17 @@
         <div class="title-bg">
             <h2 class="title">欢迎来到LensPark</h2>
         </div>
-        <form>
+        <form action="#">
             <label>
                 账号：<input type="text" ref="username" required placeholder="请输入账号">
             </label>
             <label>
-                密码：<input type="password" ref="password" required placeholder="请输入密码">
+                密码：<input type="password" ref="password" required placeholder="请输入密码" autocomplete="off">
             </label>
             <button @click="submitInfo">登录</button>
             <div class="button-nav">
                 <router-link to="">忘记密码</router-link>
-                <router-link to="">注册账号</router-link>
+                <router-link to="/register">注册账号</router-link>
             </div>
         </form>
     </div>
@@ -26,19 +26,21 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import CookieTool from '../utils/cookie';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
     const router=useRouter();
+    const route=useRoute();
+    console.log(route)
     let username=ref();
     let password=ref();
     function submitInfo(){
-        CookieTool.setCookie("username",username.value.value);
-        CookieTool.setCookie("password",password.value.value);
-        CookieTool.setCookie("isLogin",true);
+        let UNtext=username.value.value;
+        let PWtext=password.value.value;
+        if(UNtext===""||PWtext==="")return;
+        CookieTool.setCookie("username",UNtext);
+        CookieTool.setCookie("password",PWtext);
+        CookieTool.setCookie("isLogin",true); 
         router.replace("/home");
-        setTimeout(()=>{
-            router.go(0);
-        },1);
     }
 </script>
 <style scoped>

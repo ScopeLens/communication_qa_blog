@@ -6,22 +6,30 @@
 <template>
     <div class="PW-container">
         <div class="user-info">
-            <img :src="identity.avatar" alt="头像">
-            <span class="nickname">{{identity.nickname}}</span>
-            <span class="roles">{{identity.roles}}</span>
+            <template v-if="!isShow">
+                <img src="https://images.pexels.com/photos/27582996/pexels-photo-27582996.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="头像">
+                <span class="nickname">游客</span>
+                <span class="roles">未登录</span>
+            </template>
+            <template v-else>
+                <img :src="identity.avatar" alt="头像">
+                <span class="nickname">{{identity.nickname}}</span>
+                <span class="roles">{{identity.roles}}</span>
+            </template>
         </div>
         <ul>
-            <li><router-link to="/personalhome">我的主页</router-link></li>
-            <li><router-link to="/personalhome/mypost">我的博客</router-link></li>
-            <li><router-link to="/personalhome/mystar">我的收藏</router-link></li>
-            <li><router-link to="/personalhome">浏览历史</router-link></li>
+            <li><router-link replace to="/personalhome">我的主页</router-link></li>
+            <li><router-link replace to="/mymessage">我的消息</router-link></li>
+            <li><router-link replace to="/mystar">我的收藏</router-link></li>
+            <li><router-link replace to="/mywebhistory">浏览历史</router-link></li>
             <li @click="logOut"><a>退出登录</a></li>
         </ul>
     </div>
 </template>
 <script setup lang="ts">
     import { useRouter } from 'vue-router';
-import CookieTool from '../utils/cookie';
+    import CookieTool from '../utils/cookie';
+    import { computed } from 'vue';
     const router=useRouter()
     let identity={
         avatar:"https://images.pexels.com/photos/1055272/pexels-photo-1055272.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
@@ -34,6 +42,9 @@ import CookieTool from '../utils/cookie';
         CookieTool.delCookie("isLogin");
         router.go(0);
     }
+    let isShow=computed(()=>{
+        return CookieTool.getCookie("isLogin");
+    })
 </script>
 <style>
 .PW-container{
@@ -80,6 +91,8 @@ ul li:hover{
     background-color: #dbe2ef;
 }
 ul li a{
+    width: 100%;
+    display: block;
     font-size: 25px;
     color: #112d4e;
     text-decoration: none;

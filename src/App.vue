@@ -12,7 +12,7 @@ export default {
                 <router-link to="/ranklist" replace>排行</router-link>
                 <Search target="搜索帖子" :sendTarget="toRankList"></Search>
                 <Search target="搜索用户" :sendTarget="toUserList"></Search>
-                <router-link v-if="isShow" to="/post/editpost">发布博文</router-link>
+                <router-link v-if="isShow" to="/editpost">发布博文</router-link>
                 <router-link v-else to="/login" replace>登录</router-link>
             </div>
             <div class="banner"></div>
@@ -33,11 +33,12 @@ import PersonalWindow from './components/PersonalWindow.vue';
 import CookieTool from './utils/cookie';
 import { computed } from 'vue';
 
+    const router=useRouter();
+
     let isShow=computed(()=>{
         return CookieTool.getCookie("isLogin");
     })
 
-    const router=useRouter();
     function toRankList(value: string){
         router.replace({
             path:'/ranklist',
@@ -63,6 +64,8 @@ import { computed } from 'vue';
     background-image: url("./assets/imgs/bg-cover.jpeg");
     background-size: cover;
     background-repeat: no-repeat;
+    overflow: hidden;
+    position: relative;
 }
 .App-container .page-header{
     height: 80px;
@@ -98,5 +101,10 @@ import { computed } from 'vue';
 }
 .App-container .page-body::-webkit-scrollbar {
   display: none;
+}
+@media screen and (max-width: 1160px) {
+    .App-container{
+        width: 1160px;
+    }
 }
 </style>
