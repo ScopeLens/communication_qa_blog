@@ -21,7 +21,7 @@ import { ref } from 'vue';
         keyInput.value.value="";
     }
 </script>
-<style scoped>
+<style scoped lang="scss">
     input{
         width: 200px;
         height: 25px;

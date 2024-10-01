@@ -45,12 +45,11 @@ import {useRouter } from 'vue-router';
         })
     }
 </script>
-<style scoped>
+<style scoped lang="scss">
 .PostItem-container{
     background-color: #dbe2ef;
-    margin: 20px;
-    margin-top: 0px;
-    padding: 10px;
+  margin: 0 20px 20px;
+  padding: 10px;
     border: 2px solid black;
     border-radius: 5px;
 }
@@ -67,11 +66,19 @@ import {useRouter } from 'vue-router';
 .footer{
     display: flex;
     justify-content: space-between;
-}
-.footer .left span{
-    margin: 0px 5px;
-}
-.footer .right .author{
-    margin-right: 10px;
+
+  .left {
+    span{
+      margin: 0 5px;
+    }
+  }
+
+  .right {
+    color:gray;
+
+    .author{
+      margin-right: 10px;
+    }
+  }
 }
 </style>

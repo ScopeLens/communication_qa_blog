@@ -24,9 +24,8 @@
 .UI-container{
     width: 95%;
     height: 140px;
-    margin: 0px auto;
-    margin-bottom: 20px;
-    /* padding: 20px; */
+  margin: 0 auto 20px;
+  /* padding: 20px; */
     border-radius: 20px;
     display: flex;
     justify-content: space-between;
@@ -37,36 +36,42 @@
     background-size: cover;
     background-position: center;
     transition: all 0.3s;
-}
-.UI-container:hover{
+
+  &:hover{
     transform: scale(1.03);
-}
-.UI-container .left-avatar img{
+  }
+
+  .left-avatar img{
     width: 100px;
     height: 100px;
     margin: 20px;
     border-radius: 20px;
-}
-.UI-container .center-data{
+  }
+
+  .center-data{
     height: 100px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: left;
     flex-grow: 1;
-}
-.UI-container .center-data .username{
-    font-size: 20px;
-    font-weight: bold;
-    text-shadow: 0px 0px 5px white;
-}
-.UI-container .right-nav{
+
+    .username{
+      font-size: 20px;
+      font-weight: bold;
+      text-shadow: 0px 0px 5px white;
+    }
+  }
+
+  .right-nav{
     margin-right: 20px;
-}
-.UI-container .right-nav button{
-    width: 80px;
-    height: 40px;
-    font-size: 20px;
-    border-radius: 10px;
+
+    button{
+      width: 80px;
+      height: 40px;
+      font-size: 20px;
+      border-radius: 10px;
+    }
+  }
 }
 </style>

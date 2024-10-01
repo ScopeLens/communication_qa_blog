@@ -1,7 +1,6 @@
 // 引入创建函数
 import { createRouter, createWebHashHistory } from "vue-router";
-import CookieTool from "../utils/cookie";
-
+import {useAuthStore} from "../stores/authStore.js";
 // 创建路由
 const router = createRouter({
     history: createWebHashHistory(),
@@ -17,18 +16,22 @@ const router = createRouter({
         {
             path: '/personalhome',
             component: () => import("../pages/PersonalHome.vue"),
+            meta: { requiresAuth: true },
         },
         {
             path: '/mymessage',
-            component: () => import("../pages/UserMessage.vue")
+            component: () => import("../pages/UserMessage.vue"),
+            meta: { requiresAuth: true },
         },
         {
             path: '/mystar',
-            component: () => import("../pages/UserStar.vue")
+            component: () => import("../pages/UserStar.vue"),
+            meta: { requiresAuth: true },
         },
         {
             path: '/mywebhistory',
-            component: () => import("../pages/Userbhistory.vue")
+            component: () => import("../pages/Userbhistory.vue"),
+            meta: { requiresAuth: true },
         },
         {
             path: '/userlist',
@@ -44,9 +47,11 @@ const router = createRouter({
         },
         {
             path: '/editpost',
-            component: () => import("../pages/EditPost.vue")
+            component: () => import("../pages/EditPost.vue"),
+            meta: { requiresAuth: true },
         },
         {
+            name: 'login',
             path: '/login',
             component: () => import("../pages/Login.vue")
         },
@@ -58,11 +63,14 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    if ((to.path.includes("/my") ||
-        to.path.includes("edit") ||
-        to.path.includes("personalhome")
-    ) && (!CookieTool.getCookie("isLogin"))) next('/login');
-    next()
+    const useAuth = useAuthStore()  // 获取 Pinia store 实例
+
+    // 如果路由需要登录
+    if (to.meta.requiresAuth && !useAuth.isLoggedIn) {
+        next({ name: 'login' })  // 重定向到首页
+    } else {
+        next()  // 允许通过
+    }
 })
 
 export default router;

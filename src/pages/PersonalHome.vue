@@ -114,58 +114,64 @@ import PostList from '../components/PostList.vue';
     }
 </script>
 <style scoped>
-    .info{
-        height: 500px;
-        margin: 20px;
-        margin-top: 0px;
-        border-radius: 10px;
-        background-color: white;
-        text-align: center;
-    }
-    .info .bg-img{
-        width: 100%;
-        height: 250px;
-        object-fit: cover;
-        object-position: center;
-        margin: 0px -20px;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
+.info{
+  height: 500px;
+  margin: 0 20px 20px;
+  border-radius: 10px;
+  background-color: white;
+  text-align: center;
 
+  .bg-img{
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    object-position: center;
+    margin: 0 -20px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
+  }
+
+  .avatar-img{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    position: relative;
+    transform: translateY(-50%);
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .detail{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateY(-100px);
+
+    .Ftwo{
+      width: 180px;
+      display: flex;
+      justify-content: space-evenly;
     }
-    .info .avatar-img{
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-        position: relative;
-        transform: translateY(-50%);
-        object-fit: cover;
-        object-position: center;
-    }
-    .info .detail{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        transform: translateY(-100px);
-    }
-    .info .detail .Ftwo{
-        width: 180px;
-        display: flex;
-        justify-content: space-evenly;
-    }
-    .info .detail .nav{
-        width: 200px;
-        margin: 10px;
-        display: flex;
-        justify-content: space-between;
-    }
-    .info .detail .nav button{
+
+    .nav{
+      width: 200px;
+      margin: 10px;
+      display: flex;
+      justify-content: space-between;
+
+      button{
         font-size: 15px;
         border: 0;
         background-color: transparent;
         transition: all 0.1s;
+
+        &:hover{
+          color: rgb(0, 179, 255);
+          transform: scale(1.1);
+        }
+      }
     }
-    .info .detail .nav button:hover{
-        color: rgb(0, 179, 255);
-        transform: scale(1.1);
-    }
+  }
+}
 </style>

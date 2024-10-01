@@ -22,47 +22,56 @@
 <script setup lang="ts">
 
 </script>
-<style scoped>
+<style scoped lang="scss">
     .M-container{
         background-color: #dbe2ef;
-        margin: 20px;
-        margin-top: 0px;
-        padding: 20px;
+      margin: 0 20px 20px;
+      padding: 20px;
         border: 2px solid black;
         border-radius: 5px;
         display: flex;
-    }
-    .M-container img{
+
+      img{
         width: 80px;
         height: 80px;
         object-fit: cover;
         object-position: center;
         border-radius: 50%;
-    }
-    .M-container .detail{
-        margin: 0px 10px;
-    }
-    .M-container .detail .info{
-        display: flex;
-        justify-content: space-between;
-    }
-    .M-container .detail .info .username{
-        font-size: 20px;
-        font-weight: bold;
-    }
-    .M-container .detail .info .date{
-        color: gray;
-    }
-    .M-container .detail .content .otherC{
-        padding: 5px;
-    }
-    .M-container .detail .content .userC{
-        color: gray;
-        background-color: #FFFFFF50;
-        padding: 10px;
-    }
-    .M-container .detail .content .userC::before{
-        content: "回复我的：";
+      }
+
+      .detail{
+        margin: 0 10px;
+
+        .info{
+          display: flex;
+          justify-content: space-between;
+
+          .username{
+            font-size: 20px;
+            font-weight: bold;
+          }
+
+          .date{
+            color: gray;
+          }
+        }
+
+        .content{
+          .otherC{
+            padding: 5px;
+          }
+
+          .userC{
+            color: gray;
+            background-color: #FFFFFF50;
+            padding: 10px;
+
+            &::before{
+              content: "回复我的：";
+            }
+          }
+        }
+      }
     }
     .reply{
         background-color: transparent;
@@ -70,8 +79,9 @@
         font-size: 15px;
         margin-top: 15px;
         transition: all 0.1s;
-    }
-    .reply:hover{
+
+      &:hover{
         color: rgb(0, 179, 255);
+      }
     }
 </style>

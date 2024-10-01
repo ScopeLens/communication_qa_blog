@@ -16,11 +16,15 @@
         <div class="footer">
             <h2 class="h2-color">图片</h2>
             <ul>
-                <li v-for="(item, index) in imglist" :key="index"><img :src="item"></li>
+                <li v-for="(item, index) in imglist" :key="index"><img :src="item">
+                    <button @click="delImg(index)">
+                        <i class="iconfont icon-cha"></i>
+                    </button>
+                </li>
             </ul>
-            <button @click="uploadImg">
+            <button>
                 <i class="iconfont icon-tianjia"></i>
-                <input type="file" accept="image/png, image/jpeg, image/gif, image/jpg">
+                <input type="file" accept="image/*" ref="imgUrlValue"@change="uploadImg">
             </button>
         </div>
         <div class="nav">
@@ -29,22 +33,51 @@
     </div>
 </template>
 <script setup lang="ts">
-    import MarkdownIt from 'markdown-it'
+import MarkdownIt from 'markdown-it'
 import { ref } from 'vue';
-    const md = new MarkdownIt();
-    let imglist=ref([])
-    function uploadImg(){
 
+    const md = new MarkdownIt();
+    let fileReader=new FileReader();
+    let imgUrlValue=ref();
+    let imgList=ref([]);
+    fileReader.addEventListener("load",()=>{
+      imgList.value.push(filereader.result);
+    })
+    function uploadImg(){  
+        let fileList=imgUrlValue.value.files[0];
+        filereader.readAsDataURL(fileList);
+        imgUrlValue.value.value="";
     }
     function uploadPost(){
-        let result=confirm("确认发布")
+      ElMessageBox.confirm(
+          '确认发布？',
+          '确认',
+          {
+            confirmButtonText: '发布',
+            cancelButtonText: '取消',
+          }
+      )
+          .then(() => {
+            ElMessage({
+              type: 'success',
+              message: '发布成功',
+            })
+          })
+          .catch(() => {
+            ElMessage({
+              type: 'info',
+              message: '取消发布',
+            })
+          })
+    }
+    function delImg(index:number){
+      imgList.value.splice(index,1);
     }
 </script>
-<style scoped> 
+<style scoped lang="scss">
     .EP-container{
-        margin: 20px;
-        margin-top: 0px;
-        background-color: white;
+      margin: 0 20px 20px;
+      background-color: white;
         border-radius: 10px;
         padding: 15px;
     }
@@ -63,32 +96,67 @@ import { ref } from 'vue';
         resize: none;
         height: 400px;
     }
-    .footer ul{
-        margin: 10px 0px;
-    }
-    .footer button{
+    .footer{
+      ul{
+        margin: 10px 0;
+
+        li{
+          display: inline-block;
+          margin: 0 10px 10px 0;
+          position: relative;
+
+          img{
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+          }
+
+          >button{
+            width: 20px;
+            height: 20px;
+            position:absolute;
+            text-align: center;
+            line-height: 20px;
+            top: 0;
+            right: 0;
+            background-color: gray;
+            border: 0;
+
+            >i{
+              color: white;
+              font-size: 20px;
+              font-weight: bold;
+            }
+          }
+        }
+      }
+
+      button{
         width: 100px;
         height: 100px;
         position: relative;
-    }
-    .footer button>input{
-        opacity: 0;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        position: absolute;
-    }
-    .footer button i{
-        color: gray;
-        font-size: 30px;
+
+        >input{
+          opacity: 0;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          position: absolute;
+        }
+
+        i{
+          color: gray;
+          font-size: 30px;
+        }
+      }
     }
     .nav{
         margin: 10px 0px;
         display: flex;
         flex-direction: row-reverse;
-    }
-    .nav button{
+
+      button{
         width: 90px;
         height: 40px;
         background-color: rgb(0, 153, 255);
@@ -96,5 +164,6 @@ import { ref } from 'vue';
         font-size: 20px;
         color: white;
         border-radius: 10px;
+      }
     }
 </style>

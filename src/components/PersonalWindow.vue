@@ -1,8 +1,3 @@
-<script lang="ts">
-    export default {
-        name:"PersonalWindow"
-    }
-</script>
 <template>
     <div class="PW-container">
         <div class="user-info">
@@ -26,34 +21,37 @@
         </ul>
     </div>
 </template>
-<script setup lang="ts">
-    import { useRouter } from 'vue-router';
-    import CookieTool from '../utils/cookie';
-    import { computed } from 'vue';
-    const router=useRouter()
-    let identity={
-        avatar:"https://images.pexels.com/photos/1055272/pexels-photo-1055272.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        nickname:"ScopeLens",
-        roles:"管理员"
-    }
-    function logOut(){
-        CookieTool.delCookie("username");
-        CookieTool.delCookie("password");
-        CookieTool.delCookie("isLogin");
-        router.go(0);
-    }
-    let isShow=computed(()=>{
-        return CookieTool.getCookie("isLogin");
-    })
+<script setup>
+import { useRouter } from 'vue-router';
+import {computed, onMounted, ref} from 'vue';
+import {useAuthStore} from "../stores/authStore";
+
+const useAuth=useAuthStore()
+const router=useRouter()
+const identity=ref({
+  avatar:"https://images.pexels.com/photos/1055272/pexels-photo-1055272.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+  nickname:"ScopeLens",
+  roles:"管理员"
+})
+const isShow=computed(()=>{
+  return useAuth.isLoggedIn
+})
+const logOut=()=>{
+  useAuth.logout()
+}
+
+function infoInit(){
+
+}
+
+onMounted(()=>{
+  infoInit()
+})
 </script>
-<style>
+<style scoped lang="scss">
 .PW-container{
-    left: 14px;
-    top: 105px;
     border: 3px solid black;
     border-radius: 10px;
-    width: calc(20% - 20px);
-    position: absolute;
     background-image: url("../assets/imgs/avatar-bg.jpeg");
     background-repeat: no-repeat;
     background-size: cover;
@@ -63,38 +61,45 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-.user-info img{
+
+  img{
     width: 100px;
     height: 100px;
     border-radius: 50%;
-}
-.user-info .nickname{
+  }
+
+  .nickname{
     font-size: 30px;
-}
-.user-info .roles{
+  }
+
+  .roles{
     color: goldenrod;
     font-weight: bold;
+  }
 }
+
 ul{
     list-style: none;
-}
-ul li{
+
+  li{
     background-color: #dbe2ef82;
     border-radius: 5px;
     margin: 10px;
     padding: 5px;
     transition: 0.3s all;
     cursor: pointer;
-}
-ul li:hover{
-    background-color: #dbe2ef;
-}
-ul li a{
-    width: 100%;
-    display: block;
-    font-size: 25px;
-    color: #112d4e;
-    text-decoration: none;
+
+    &:hover{
+      background-color: #dbe2ef;
+    }
+
+    a{
+      width: 100%;
+      display: block;
+      font-size: 25px;
+      color: #112d4e;
+      text-decoration: none;
+    }
+  }
 }
 </style>

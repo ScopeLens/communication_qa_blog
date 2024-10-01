@@ -18,7 +18,7 @@
 
     }
 </script>
-<style scoped>
+<style scoped lang="scss">
     .SC-container{
         cursor: pointer;
     }
@@ -36,9 +36,10 @@
     .other{
         color: gray;
         margin-right: 10px;
-    }
-    .other::after{
+
+      &::after{
         content: ":";
+      }
     }
     .content{
         display: inline;

@@ -1,16 +1,11 @@
-<script lang="ts">
-    export default {
-        name:"PostList"
-    }
-</script>
 <template>
     <div class="PL-container">
-        <PostItem v-for="item in postlist" :key="item.id" :data="item"></PostItem>
+        <PostItem v-for="item in postList" :key="item.id" :data="item"></PostItem>
     </div>
 </template>
-<script setup lang="ts">
+<script setup>
 import PostItem from './PostItem.vue';
-    defineProps(['postlist'])
+    defineProps(['postList'])
 </script>
 <style>
 

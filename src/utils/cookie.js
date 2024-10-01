@@ -1,6 +1,6 @@
 //获取cookie
 const CookieTool = {
-    getCookie: (name: string) => {
+    getCookie: (name) => {
         var arr, reg = new RegExp("whpqhrpvnreioafn" + name + "jvpreaiorvraph" + "=([^;]*)(;|$)");
         if (arr = document.cookie.match(reg))
             return decodeURI(arr[1]);
@@ -9,7 +9,7 @@ const CookieTool = {
     },
 
     //设置cookie
-    setCookie: (data_name: any, value: any) => {
+    setCookie: (data_name, value) => {
         let exdate = new Date();
         exdate.setDate(31);
         let key_name = "whpqhrpvnreioafn" + data_name + "jvpreaiorvraph"
@@ -17,7 +17,7 @@ const CookieTool = {
     },
 
     //删除cookie
-    delCookie: (name: any) => {
+    delCookie: (name) => {
         let exp = new Date();
         exp.setTime(0); //调整过期时间为上个月最后一天
         let cval = CookieTool.getCookie(name);

@@ -80,7 +80,7 @@ import Reply from '../components/Reply.vue';
         console.log(route.query)
     })
 </script>
-<style scoped>
+<style scoped lang="scss">
 .Post-container{
     padding: 20px;
     margin: 20px 23px;
@@ -95,45 +95,53 @@ import Reply from '../components/Reply.vue';
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-.post-info .user-data{
+
+  .user-data{
     display: flex;
     align-items: center;
     margin: 10px;
-}
-.post-info .user-data img{
-    width: 70px;
-    height: 70px;
-    object-fit: cover;
-    border-radius: 50%;
-}
-.post-info .user-data span{
-    font-size: 20px;
-    margin: 10px;
-}
-.post-info .browse-data{
+
+    img{
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    span{
+      font-size: 20px;
+      margin: 10px;
+    }
+  }
+
+  .browse-data{
     display: flex;
     align-items: center;
-}
-.post-info .browse-data span{
-    font-size: 23px;
-    margin: 0px 10px;
-    color: #00000080;
-    cursor: pointer;
-}
-.post-info .browse-data span i{
-    font-size: 25px;
+
+    span{
+      font-size: 23px;
+      margin: 0px 10px;
+      color: #00000080;
+      cursor: pointer;
+
+      i{
+        font-size: 25px;
+      }
+    }
+  }
 }
 .post-content{
     margin: 10px;
-}
-.post-content .content-data{
+
+  .content-data{
     font-size: 20px;
     color: rgb(35, 31, 31);
     margin-bottom: 20px;
-}
-.post-content .content-img img{
-    margin: 20px 0px;
+  }
+
+  .content-img img{
+    margin: 20px 0;
+  }
 }
 .comment-list{
     margin: 10px;

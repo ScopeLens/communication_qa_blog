@@ -45,33 +45,36 @@ import Reply from './Reply.vue';
         }
     ]);
 </script>
-<style scoped>
+<style scoped lang="scss">
     .Comment-container{
-        margin: 15px 0px;
+        margin: 15px 0;
         padding: 10px;
         display: flex;
         border-bottom: 2px solid gray;
-    }
-    .Comment-container img{
+
+      img{
         width: 100px;
         height: 100px;
         border-radius: 50%;
         object-fit: cover;
         margin-right: 10px;
+      }
     }
     .user-data .c-body{
-        margin:5px 0px;
+        margin:5px 0;
     }
     .comment-nav{
         margin: 5px 0px;
         font-size: 15px;
-    }
-    .comment-nav .like{
-        margin: 0px 25px;
-    }
-    .comment-nav>button{
+
+      .like{
+        margin: 0 25px;
+      }
+
+      >button{
         border: 0;
         background-color: transparent;
+      }
     }
     .open-list{
         color: gray;

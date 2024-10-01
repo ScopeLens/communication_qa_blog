@@ -1,8 +1,3 @@
-<script lang="ts">
-export default {
-    name:"App"
-}
-</script>
 <template>
     <div class="App-container">
         <div class="page-header">
@@ -17,12 +12,14 @@ export default {
             </div>
             <div class="banner"></div>
         </div>
-        <PersonalWindow></PersonalWindow>
         <div class="page-body">
+          <div class="left-part">
+            <PersonalWindow></PersonalWindow>
+          </div>
+          <div class="middle-part">
             <router-view></router-view>
-        </div>
-        <div class="page-footer">
-
+          </div>
+          <div class="right-part"></div>
         </div>
     </div>
 </template>
@@ -30,13 +27,14 @@ export default {
 import { useRouter } from 'vue-router';
 import Search from './components/Search.vue';
 import PersonalWindow from './components/PersonalWindow.vue';
-import CookieTool from './utils/cookie';
 import { computed } from 'vue';
+import {useAuthStore} from "./stores/authStore";
 
-    const router=useRouter();
+const useAuth=useAuthStore();
+const router=useRouter();
 
     let isShow=computed(()=>{
-        return CookieTool.getCookie("isLogin");
+        return useAuth.isLoggedIn
     })
 
     function toRankList(value: string){
@@ -57,50 +55,66 @@ import { computed } from 'vue';
     }
 
 </script>
-<style scoped>
+<style scoped lang="scss">
 .App-container{
     width: 100%;
     height: 100vh;
+    display: flex;
+    flex-direction: column;
     background-image: url("./assets/imgs/bg-cover.jpeg");
     background-size: cover;
     background-repeat: no-repeat;
-    overflow: hidden;
-    position: relative;
-}
-.App-container .page-header{
+
+  .page-header{
     height: 80px;
     background-image: url("./assets/imgs/top-cover.jpeg");
     background-size: cover;
     background-repeat: no-repeat;
-    margin-bottom: 25px;
-}
-.App-container .page-header .nav{ 
-    width: 70%;
-    margin: 0 auto;
-    display: flex;
-    line-height: 80px;
-    justify-content: space-evenly;
-}
-.App-container .page-header .nav a{
-    text-decoration: none;
-    color: #eeeeee;
-    font-size: 20px;
-    font-weight: bold;
-    text-shadow: 0px 0px 10px black;
-    transition: 0.1s all;
-}
-.App-container .page-header .nav a:hover{
-    transform: scale(1.2);
-}
-.App-container .page-body{
-    width: 60%;
-    height: calc(100vh - 105px);
+
+    .nav{
+      width: 70%;
+      margin: 0 auto;
+      display: flex;
+      line-height: 80px;
+      justify-content: space-evenly;
+
+      a{
+        text-decoration: none;
+        color: #eeeeee;
+        font-size: 20px;
+        font-weight: bold;
+        text-shadow: 0 0 10px black;
+        transition: 0.1s all;
+
+        &:hover{
+          transform: scale(1.2);
+        }
+      }
+    }
+  }
+
+  .page-body{
+    width: 100%;
+    height:0;
+    flex:1;
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    padding:25px 0;
     margin: 0 auto;
     position: relative;
-    overflow: auto;
-}
-.App-container .page-body::-webkit-scrollbar {
-  display: none;
+
+    .left-part{
+      padding-left: 20px;
+    }
+
+    .middle-part{
+      overflow: auto;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
 }
 @media screen and (max-width: 1160px) {
     .App-container{

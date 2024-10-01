@@ -1,8 +1,3 @@
-<script lang="ts">
-    export default {
-        name:""
-    }
-</script>
 <template>
     <div class="UL-container">
         <UserItem></UserItem>

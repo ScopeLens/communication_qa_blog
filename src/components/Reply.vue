@@ -19,33 +19,37 @@
         
     }
 </script>
-<style scoped> 
-    .reply-content{
-        margin: 10px 0px;
-        display: flex;
-        align-items: center;
+<style scoped lang="scss">
+.reply-content{
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+
+  .info img{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  .nav{
+    display: flex;
+    flex-direction: column;
+    align-items: right;
+    flex-grow: 1;
+
+    button{
+      height: 20%;
+      font-size: 15px;
+      background-color: black;
+      color: white
     }
-    .reply-content .info img{
-        width: 70px;
-        height: 70px;
-        border-radius: 50%;
-        margin-right: 10px;
+
+    textarea{
+      font-size: 18px;
+      padding: 5px;
+      resize: none;
     }
-    .reply-content .nav{
-        display: flex;
-        flex-direction: column;
-        align-items: right;
-        flex-grow: 1;
-    }
-    .reply-content .nav button{
-        height: 20%;
-        font-size: 15px;
-        background-color: black;
-        color: white
-    }
-    .reply-content .nav textarea{
-        font-size: 18px;
-        padding: 5px;
-        resize: none;
-    }
+  }
+}
 </style>
