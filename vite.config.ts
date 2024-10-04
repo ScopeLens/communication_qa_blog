@@ -19,7 +19,11 @@ export default defineConfig({
         port:415,
         proxy: {
             '/out/api': {
-                target: 'http://localhost:415',
+                target: 'http://localhost:105',
+                changeOrigin: true,
+            },
+            '/api': {
+                target: 'http://localhost:105',
                 changeOrigin: true,
             }
         }

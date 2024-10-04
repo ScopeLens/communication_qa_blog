@@ -123,13 +123,11 @@ onMounted(()=>{
 </script>
 <style scoped>
 .container{
-  overflow: auto;
-  position:relative;
 
   .nav{
     z-index: 9999;
-    right:0;
-    top:-10px;
+    right:calc(20% + 20px);
+    top:0;
     position: absolute;
     color: red;
     cursor: pointer;

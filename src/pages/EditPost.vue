@@ -1,78 +1,189 @@
-<script lang="ts">
-    export default {
-        name:"EditPost"
-    }
-</script>
 <template>
-    <div class="EP-container">
+    <div class="EP-container" v-loading="isLoading">
         <div class="title">
             <h2 class="h2-color">标题</h2>
-            <input type="text" class="baseSize">
+            <input type="text" class="baseSize" v-model="postInfo.title">
         </div>
         <div class="content">
             <h2 class="h2-color">正文</h2>
-            <textarea class="baseSize" placeholder="支持markdown语法"></textarea>
+            <textarea
+                class="baseSize"
+                placeholder="请输入正文"
+                v-model="postInfo.content"
+            ></textarea>
         </div>
         <div class="footer">
             <h2 class="h2-color">图片</h2>
-            <ul>
-                <li v-for="(item, index) in imglist" :key="index"><img :src="item">
-                    <button @click="delImg(index)">
-                        <i class="iconfont icon-cha"></i>
-                    </button>
-                </li>
-            </ul>
-            <button>
-                <i class="iconfont icon-tianjia"></i>
-                <input type="file" accept="image/*" ref="imgUrlValue"@change="uploadImg">
-            </button>
+            <el-upload
+                list-type="picture-card"
+                :auto-upload="false"
+                :limit='9'
+                :on-change="getImg"
+                :on-exceed="showLimit"
+            >
+              <el-icon><Plus /></el-icon>
+              <template #file="{ file }">
+              <div
+                  :style="{
+                        width: '100%',
+                        height: '100%',
+                  }"
+              >
+                <img class="el-upload-list__item-thumbnail"
+                     :style="{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                      }"
+                     :src="file.url"
+                     alt="" />
+                <span class="el-upload-list__item-actions">
+                  <span
+                    class="el-upload-list__item-preview"
+                    @click="handlePictureCardPreview(file)"
+                  ><el-icon><zoom-in /></el-icon>
+                  </span>
+                  <span
+                      v-if="!disabled"
+                      class="el-upload-list__item-delete"
+                      @click="handleDownload(file)"
+                  ><el-icon><Download /></el-icon>
+                  </span>
+                  <span
+                      v-if="!disabled"
+                      class="el-upload-list__item-delete"
+                      @click="handleRemove(file)"
+                  ><el-icon><Delete /></el-icon>
+                  </span>
+                </span>
+              </div>
+            </template>
+          </el-upload>
+          <el-dialog v-model="dialogVisible">
+            <img
+                :style="{
+                  width: '100%',
+                  objectFit: 'cover',
+                }"
+                :src="dialogImageUrl"
+                alt="图片预览" />
+          </el-dialog>
         </div>
         <div class="nav">
+          <el-select
+              v-model="postInfo.tags"
+              multiple
+              filterable
+              allow-create
+              default-first-option
+              :reserve-keyword="false"
+              placeholder="为你的博文选择一些标签"
+              style="width: 240px"
+          >
+            <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+            />
+          </el-select>
             <button @click="uploadPost">发布</button>
         </div>
     </div>
 </template>
-<script setup lang="ts">
-import MarkdownIt from 'markdown-it'
+<script setup>
 import { ref } from 'vue';
+import { Delete, Download, Plus, ZoomIn } from '@element-plus/icons-vue'
+import {CreatePost} from "../http/api/post.js";
 
-    const md = new MarkdownIt();
-    let fileReader=new FileReader();
-    let imgUrlValue=ref();
-    let imgList=ref([]);
-    fileReader.addEventListener("load",()=>{
-      imgList.value.push(filereader.result);
-    })
-    function uploadImg(){  
-        let fileList=imgUrlValue.value.files[0];
-        filereader.readAsDataURL(fileList);
-        imgUrlValue.value.value="";
-    }
-    function uploadPost(){
-      ElMessageBox.confirm(
-          '确认发布？',
-          '确认',
-          {
-            confirmButtonText: '发布',
-            cancelButtonText: '取消',
-          }
-      )
-          .then(() => {
-            ElMessage({
-              type: 'success',
-              message: '发布成功',
-            })
+const isLoading=ref(false)
+const dialogImageUrl = ref('')
+const dialogVisible = ref(false)
+const disabled = ref(false)
+const postInfo=ref({
+  title:"",
+  content:"",
+  tags:[],
+  images:[]
+})
+const value = ref([])
+const options = [
+  {
+    value: 'HTML',
+    label: 'HTML',
+  },
+  {
+    value: 'CSS',
+    label: 'CSS',
+  },
+  {
+    value: 'JavaScript',
+    label: 'JavaScript',
+  },
+]
+
+const handleRemove = (file) => {
+  console.log(file)
+}
+
+const handlePictureCardPreview = (file) => {
+  dialogImageUrl.value = file.url
+  dialogVisible.value = true
+}
+
+const handleDownload = (file) => {
+  console.log(file)
+}
+
+const getImg=(file,fileList)=>{
+  postInfo.value.images=fileList
+}
+
+const showLimit=()=>{
+  ElMessage({
+    type: 'warning',
+    message: '最多只能选择9张图片',
+  })
+}
+
+function uploadPost(){
+  ElMessageBox.confirm(
+      '确认发布？',
+      '确认',
+      {
+        confirmButtonText: '发布',
+        cancelButtonText: '取消',
+      }
+  )
+      .then(async () => {
+        isLoading.value = true
+        const formData = new FormData();
+        formData.append('title', postInfo.value.title);
+        formData.append('content', postInfo.value.content);
+        formData.append('tags', JSON.stringify(postInfo.value.tags));
+        let ImgList = []
+        if (postInfo.value.images) {
+          postInfo.value.images.forEach(item => {
+            ImgList.push(item?.raw);
           })
-          .catch(() => {
-            ElMessage({
-              type: 'info',
-              message: '取消发布',
-            })
-          })
-    }
-    function delImg(index:number){
-      imgList.value.splice(index,1);
-    }
+        }
+        console.log(ImgList)
+        formData.append('images', JSON.stringify(ImgList));
+        let res=(await CreatePost(formData)).data
+        console.log(res)
+        ElMessage({
+          type: 'success',
+          message: '发布成功',
+        })
+        isLoading.value = false
+      })
+      .catch(() => {
+        ElMessage({
+          type: 'info',
+          message: '取消发布',
+        })
+      })
+}
 </script>
 <style scoped lang="scss">
     .EP-container{
@@ -82,7 +193,8 @@ import { ref } from 'vue';
         padding: 15px;
     }
     .h2-color{
-        color: gray;
+      color: gray;
+      margin-bottom: 10px;
     }
     .baseSize{
         width: calc(100% - 26px);
@@ -94,7 +206,7 @@ import { ref } from 'vue';
     }
     .content textarea{
         resize: none;
-        height: 400px;
+        min-height: 120px;
     }
     .footer{
       ul{
@@ -152,9 +264,9 @@ import { ref } from 'vue';
       }
     }
     .nav{
-        margin: 10px 0px;
+        margin: 10px 0;
         display: flex;
-        flex-direction: row-reverse;
+      justify-content: space-between;
 
       button{
         width: 90px;
@@ -166,4 +278,8 @@ import { ref } from 'vue';
         border-radius: 10px;
       }
     }
+:deep(.el-dialog__body){
+  width: 100%;
+  height: 100%;
+}
 </style>

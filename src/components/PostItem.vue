@@ -1,10 +1,5 @@
-<script lang="ts">
-    export default {
-        name:"PostItem"
-    }
-</script>
 <template>
-    <div class="PostItem-container" @click="toDetail">
+    <div class="container" @click="toDetail">
         <div class="header">
             <div class="content">
                 <h3>{{ data.title }}</h3>
@@ -46,38 +41,43 @@ import {useRouter } from 'vue-router';
     }
 </script>
 <style scoped lang="scss">
-.PostItem-container{
-    background-color: #dbe2ef;
-  margin: 0 20px 20px;
-  padding: 10px;
-    border: 2px solid black;
-    border-radius: 5px;
-}
-.header{
+.container{
+  background-color: #dbe2ef;
+  border: 2px solid black;
+  border-radius: 5px;
+  padding:10px;
+  margin:0 20px 10px 20px;
+
+  .header{
     width: 100%;
     display: flex;
     justify-content: space-between;
-}
-.body img{
-    width: 100px;
-    height: 100px;
-    margin: 10px;
-}
-.footer{
-    display: flex;
-    justify-content: space-between;
+  }
 
-  .left {
-    span{
-      margin: 0 5px;
+  .body{
+    img{
+      width: 100px;
+      height: 100px;
+      margin: 10px;
     }
   }
 
-  .right {
-    color:gray;
+  .footer{
+    display: flex;
+    justify-content: space-between;
 
-    .author{
-      margin-right: 10px;
+    .left {
+      span{
+        margin: 0 5px;
+      }
+    }
+
+    .right {
+      color:gray;
+
+      .author{
+        margin-right: 10px;
+      }
     }
   }
 }

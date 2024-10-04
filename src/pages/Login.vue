@@ -1,14 +1,9 @@
-<script lang="ts">
-    export default {
-        name:""
-    }
-</script>
 <template>
     <div class="Login-container">
         <div class="title-bg">
             <h2 class="title">欢迎来到LensPark</h2>
         </div>
-        <form>
+        <form v-loading="isLoading">
             <label>
                 账号：<input type="text" v-model="formInfo.username" required placeholder="请输入账号">
             </label>
@@ -23,27 +18,29 @@
         </form>
     </div>
 </template>
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue';
 import CookieTool from '../utils/cookie.js';
 import { useRouter } from 'vue-router';
+import {noAuthLogin} from "../http/api/noAuthApi.js";
+
+const isLoading=ref(false)
 const dialogVisible=ref(false);
 const router=useRouter();
 const formInfo=ref({
   username:"",
   password:"",
 })
-async function submitInfo(){
+const submitInfo=async ()=>{
   if(formInfo.value.password===""||formInfo.value.username==="")return
-  let data=(await api.noAuthLogin({
-    "user_id":formInfo.value.username,
+  isLoading.value=true
+  let data=(await noAuthLogin({
+    "username":formInfo.value.username,
     "password":formInfo.value.password
   })).data
-    console.log(data);
-    // CookieTool.setCookie("username",formInfo.value.username);
-    // CookieTool.setCookie("password",formInfo.value.password);
-    // CookieTool.setCookie("isLogin",true);
-    // router.replace("/home");
+  localStorage.setItem("token",data.data.token)
+  isLoading.value=false
+  await router.push("/home")
 }
 </script>
 <style scoped lang="scss">

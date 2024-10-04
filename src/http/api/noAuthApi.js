@@ -3,11 +3,11 @@ import http from "../http.js";
 const noAuthPath = "/out/api"
     //登录
 export const noAuthLogin=(params)=>{
-    return http.post(noAuthPath+"/basic/login", params);
+    return http.post(noAuthPath+"/login", params);
 }
 //退出
 export const noAuthRegister=(params) =>{
-    return http.post(noAuthPath+"/basic/register", params);
+    return http.post(noAuthPath+"/register", params);
 }
 //获取用户数据
 
