@@ -1,8 +1,3 @@
-<script>
-    export default {
-        name:"Register"
-    }
-</script>
 <template>
     <div class="Rg-container">
         <div class="title-bg">
@@ -50,7 +45,7 @@
 </template>
 <script setup>
 import{ref } from 'vue'
-import {IsUsernameExist, noAuthRegister, VerifyCode} from "../http/api/noAuthApi.js";
+import {IsUsernameExist, noAuthRegister, SendVerificationEmail, VerifyCode} from "../http/api/noAuthApi.js";
 
 const countdown=ref(0)
 const timer=ref()
@@ -65,12 +60,16 @@ const formData=ref({
 const warningType=ref(0)
 
 
-const sendCode=()=>{
-  countdown.value=60
-  timer.value=setInterval(()=>{
+const sendCode=async () => {
+  if(formData.value.email==="")return
+  countdown.value = 60
+  await SendVerificationEmail({
+    email: formData.value.email,
+  })
+  timer.value = setInterval(() => {
     countdown.value--
-    if(countdown.value===0)clearInterval(timer.value)
-  },1000)
+    if (countdown.value === 0) clearInterval(timer.value)
+  }, 1000)
 }
 const submitInfo=async () => {
   if(formData.value.password!==formData.value.rePassword){

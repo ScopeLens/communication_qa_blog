@@ -11,7 +11,11 @@ export const noAuthRegister=(params) =>{
 }
 
 export const IsUsernameExist=(params) =>{
-    return http.get("/verify-username",params);
+    return http.get(noAuthPath+"/verify-username",params);
+}
+
+export const SendVerificationEmail=(params) =>{
+    return http.post(noAuthPath+"/sendEmailCode", params);
 }
 
 export const VerifyCode=(params) =>{
