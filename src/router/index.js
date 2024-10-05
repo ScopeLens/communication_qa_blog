@@ -38,8 +38,8 @@ const router = createRouter({
             component: () => import("../pages/UserList.vue")
         },
         {
-            path: '/ranklist',
-            component: () => import("../pages/RankList.vue")
+            path: '/postlist',
+            component: () => import("../pages/PostShowList.vue")
         },
         {
             path: '/post',

@@ -5,10 +5,17 @@ export const useAuthStore = defineStore('auth', {
     state: () => ({
         isLoggedIn: !!localStorage.getItem('token'),
         // isLoggedIn: true,
+        ImgUrl:"http://localhost:105",
+        Username:'',
+        Nickname:'',
+        AvatarURL:'',
+        FollowersCount:'',
+        FollowingCount:'',
+        CreatedAt:''
     }),
     actions: {
-        login(token) {
-            localStorage.setItem('token', token);
+        login(data) {
+            localStorage.setItem('token', data['Token']);
             this.isLoggedIn = true;
         },
         logout() {
@@ -17,11 +24,3 @@ export const useAuthStore = defineStore('auth', {
         }
     }
 });
-
-// 在组件中使用
-// import { useAuthStore } from '@/stores/auth';
-//
-// const authStore = useAuthStore();
-// if (!authStore.isLoggedIn) {
-//     router.push('/login');
-// }

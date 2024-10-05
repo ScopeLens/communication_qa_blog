@@ -1,117 +1,44 @@
-<script lang="ts">
-    export default {
-        name:"",
-    }
-</script>
 <template>
-    <div class="PH-container">
+    <div class="PH-container" v-loading="isLoading">
         <div class="info">
-            <img :src="userinfo.bgimg" class="bg-img">
-            <img :src="userinfo.avatar" class="avatar-img">
+            <img :src="useAuth.AvatarURL" class="bg-img" alt="背景">
+            <img :src="useAuth.AvatarURL" class="avatar-img" alt="头像">
             <div class="detail">
-                <h2>{{ userinfo.username }}</h2>
+                <h2>{{ useAuth.Nickname }}</h2>
                 <div class="Ftwo">
-                    <span>粉丝数:11</span>
-                    <span>关注数:11</span>
+                    <span>粉丝数:{{useAuth.FollowersCount}}</span>
+                    <span>关注数:{{useAuth.FollowingCount}}</span>
                 </div>
                 <div class="nav">
-                    <button>加入黑名单</button>
-                    <button>关注</button>
+                    <button>编辑</button>
+                    <button>上传头像</button>
                 </div>
             </div>
         </div>
-        <PostList :postlist="postlist"></PostList>
+        <PostList :postList="postList"></PostList>
     </div>
 </template>
-<script setup lang="ts">
-    import { useRoute } from 'vue-router';
+<script setup>
+import {onMounted, ref} from 'vue'
 import PostList from '../components/PostList.vue';
-    let postlist=[
-        {
-            id:1,
-            title:"震惊！！！！！",
-            content:"XXXXXXXXXXXXXXXXXXXX",
-            tag:['军事','坦克'],
-            img:["src"],
-            watch:1000,
-            like:99,
-            reply:100,
-            star:1111,
-            author:"ScopeLens",
-            date:"2024-1-1 10:00"
-        },
-        {
-            id:2,
-            title:"震惊！！！！！",
-            content:"XXXXXXXXXXXXXXXXXXXX",
-            tag:['军事','坦克'],
-            img:["src"],
-            watch:1000,
-            like:99,
-            reply:100,
-            star:1111,
-            author:"ScopeLens",
-            date:"2024-1-1 10:00"
-        },
-        {
-            id:3,
-            title:"震惊！！！！！",
-            content:"XXXXXXXXXXXXXXXXXXXX",
-            tag:['军事','坦克'],
-            img:["src"],
-            watch:1000,
-            like:99,
-            reply:100,
-            star:1111,
-            author:"ScopeLens",
-            date:"2024-1-1 10:00"
-        },
-        {
-            id:4,
-            title:"震惊！！！！！",
-            content:"XXXXXXXXXXXXXXXXXXXX",
-            tag:['军事','坦克'],
-            img:["src"],
-            watch:1000,
-            like:99,
-            reply:100,
-            star:1111,
-            author:"ScopeLens",
-            date:"2024-1-1 10:00"
-        },
-        {
-            id:5,
-            title:"震惊！！！！！",
-            content:"XXXXXXXXXXXXXXXXXXXX",
-            tag:['军事','坦克'],
-            img:["src"],
-            watch:1000,
-            like:99,
-            reply:100,
-            star:1111,
-            author:"ScopeLens",
-            date:"2024-1-1 10:00"
-        },
-        {
-            id:6,
-            title:"震惊！！！！！",
-            content:"XXXXXXXXXXXXXXXXXXXX",
-            tag:['军事','坦克'],
-            img:["src"],
-            watch:1000,
-            like:99,
-            reply:100,
-            star:1111,
-            author:"ScopeLens",
-            date:"2024-1-1 10:00"
-        },
-    ]
-    const route = useRoute()
-    let userinfo={
-        username:"ScopeLens",
-        bgimg:"https://images.pexels.com/photos/1055272/pexels-photo-1055272.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        avatar:"https://images.pexels.com/photos/1055272/pexels-photo-1055272.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-    }
+import {SearchPostsByUsername} from "../http/api/search";
+import {useAuthStore} from "../stores/authStore";
+
+const isLoading=ref(false);
+const postList=ref([])
+const useAuth=useAuthStore()
+
+async function DataInit() {
+  isLoading.value = true
+  postList.value = (await SearchPostsByUsername({
+    username: useAuth.Username
+  })).data
+  isLoading.value = false
+}
+
+onMounted(()=>{
+  DataInit();
+})
 </script>
 <style scoped>
 .info{

@@ -2,10 +2,10 @@
     <div class="App-container">
         <div class="page-header">
             <div class="nav">
-                <span>logo</span>
+                <img  class="logo" alt="" src="./assets/imgs/logo.jpg">
                 <router-link to="/home" replace>主页</router-link>
-                <router-link to="/ranklist" replace>排行</router-link>
-                <Search target="搜索帖子" :sendTarget="toRankList"></Search>
+                <router-link to="/postlist" replace>泳池</router-link>
+                <Search target="搜索帖子" :sendTarget="toPostList"></Search>
                 <Search target="搜索用户" :sendTarget="toUserList"></Search>
                 <router-link v-if="isShow" to="/editpost">发布博文</router-link>
                 <router-link v-else to="/login" replace>登录</router-link>
@@ -37,9 +37,9 @@ const router=useRouter();
         return useAuth.isLoggedIn
     })
 
-    function toRankList(value: string){
+    function toPostList(value: string){
         router.replace({
-            path:'/ranklist',
+            path:'/postlist',
             query:{
                 keyword:value
             }
@@ -77,6 +77,11 @@ const router=useRouter();
       display: flex;
       line-height: 80px;
       justify-content: space-evenly;
+
+      .logo{
+        width: 80px;
+        height: 80px;
+      }
 
       a{
         text-decoration: none;

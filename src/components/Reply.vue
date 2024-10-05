@@ -1,23 +1,34 @@
-<script lang="ts">
-    export default {
-        name:""
-    }
-</script>
-<template>
+<template v-loading="isLoading">
      <div class="reply-content">
         <div class="info">
-            <img src="../assets/imgs/avatar.jpg" alt=""> <!-- 获取当前用户的头像信息 -->
+            <img :src="useAuth.AvatarURL" alt=""> <!-- 获取当前用户的头像信息 -->
         </div>
         <div class="nav">
-            <textarea type="text" ref="replycontent" placeholder="发言表明态度,我想我可以更酷..."></textarea>  <!--回复框-->
+            <textarea type="text" v-model="replyContent" placeholder="发言表明态度,我想我可以更酷..."></textarea>  <!--回复框-->
             <button @click="sendReply">发布</button>
         </div>
     </div>
 </template>
-<script setup lang="ts">
-    function sendReply(){
-        
-    }
+<script setup>
+import {ref} from 'vue'
+import {useAuthStore} from "../stores/authStore.js";
+import {AddRepliesCount} from "../http/api/postInfo.js";
+
+const props=defineProps(["comment_id",'post_id']);
+const useAuth=useAuthStore()
+const isLoading=ref(false);
+const replyContent=ref()
+const sendReply=async () => {
+  if (replyContent.value === "") return
+  isLoading.value = true
+  await AddRepliesCount({
+    "post_id":props.post_id,
+    "content":replyContent.value,
+    "parent_id":props.comment_id
+  })
+  replyContent.value = ""
+  isLoading.value = true
+}
 </script>
 <style scoped lang="scss">
 .reply-content{

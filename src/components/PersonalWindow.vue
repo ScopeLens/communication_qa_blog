@@ -1,16 +1,9 @@
 <template>
-    <div class="PW-container">
+    <div class="PW-container" v-loading="isLoading">
         <div class="user-info">
-            <template v-if="!isShow">
-                <img src="https://images.pexels.com/photos/27582996/pexels-photo-27582996.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="头像">
-                <span class="nickname">游客</span>
-                <span class="roles">未登录</span>
-            </template>
-            <template v-else>
-                <img :src="identity.avatar" alt="头像">
-                <span class="nickname">{{identity.nickname}}</span>
-                <span class="roles">{{identity.roles}}</span>
-            </template>
+                <img :src="useAuth.AvatarURL" alt="头像">
+                <span class="nickname">{{useAuth.Nickname}}</span>
+<!--                <span class="roles">{{identity.roles}}</span>-->
         </div>
         <ul>
             <li><router-link replace to="/personalhome">我的主页</router-link></li>
@@ -23,30 +16,37 @@
 </template>
 <script setup>
 import { useRouter } from 'vue-router';
-import {computed, onMounted, ref} from 'vue';
+import { watch,ref,onMounted} from 'vue';
 import {useAuthStore} from "../stores/authStore";
+import {SearchUsersByUsername} from "../http/api/search.js";
 
+const isLoading=ref(false);
 const useAuth=useAuthStore()
 const router=useRouter()
-const identity=ref({
-  avatar:"https://images.pexels.com/photos/1055272/pexels-photo-1055272.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  nickname:"ScopeLens",
-  roles:"管理员"
-})
-const isShow=computed(()=>{
-  return useAuth.isLoggedIn
-})
+const identity=ref({})
+watch(()=>useAuth.isLoggedIn,async (newValue) => {
+  if (newValue) {
+    await InfoInit()
+  }else{
+    useAuth.AvatarURL="https://images.pexels.com/photos/27582996/pexels-photo-27582996.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    useAuth.Nickname="游客"
+  }
+}, { immediate: true })
 const logOut=()=>{
   useAuth.logout()
 }
-
-function infoInit(){
-
+async function InfoInit() {
+  isLoading.value = true
+  const res = (await SearchUsersByUsername()).data
+  useAuth.AvatarURL=useAuth.ImgUrl + res['avatar_url']
+  useAuth.Nickname=res['nickname']
+  useAuth.Username=res['username']
+  useAuth.FollowersCount=res['followers_count']
+  useAuth.FollowingCount=res['following_count']
+  useAuth.CreatedAt=res['created_at']
+  isLoading.value = false
 }
 
-onMounted(()=>{
-  infoInit()
-})
 </script>
 <style scoped lang="scss">
 .PW-container{
@@ -65,6 +65,8 @@ onMounted(()=>{
   img{
     width: 100px;
     height: 100px;
+    object-position: top;
+    object-fit: cover;
     border-radius: 50%;
   }
 

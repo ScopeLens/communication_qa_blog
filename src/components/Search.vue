@@ -1,25 +1,20 @@
-<script lang="ts">
-    export default {
-        name:"Search"
-    }
-</script>
 <template>
-    <div Search-container>
+    <div class="Search-container">
         <input type="text" ref="keyInput">
-        <button @click="snedKey()">{{ target }}</button>
+        <button @click="sendKey()">{{ target }}</button>
     </div>
 </template>
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue';
 
-    let props=defineProps(["target","sendTarget"]);
-    let keyInput=ref();
+let props=defineProps(["target","sendTarget"]);
+let keyInput=ref();
 
-    function snedKey(){
-        if(keyInput.value.value==="")return;
-        props.sendTarget(keyInput.value.value);
-        keyInput.value.value="";
-    }
+function sendKey(){
+    if(keyInput.value.value==="")return;
+    props.sendTarget(keyInput.value.value);
+    keyInput.value.value="";
+}
 </script>
 <style scoped lang="scss">
     input{

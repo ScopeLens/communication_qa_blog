@@ -95,7 +95,9 @@
 import { ref } from 'vue';
 import { Delete, Download, Plus, ZoomIn } from '@element-plus/icons-vue'
 import {CreatePost} from "../http/api/post.js";
+import {useRouter} from "vue-router";
 
+const router=useRouter();
 const isLoading=ref(false)
 const dialogImageUrl = ref('')
 const dialogVisible = ref(false)
@@ -155,34 +157,35 @@ function uploadPost(){
         cancelButtonText: '取消',
       }
   )
-      .then(async () => {
-        isLoading.value = true
-        const formData = new FormData();
-        formData.append('title', postInfo.value.title);
-        formData.append('content', postInfo.value.content);
-        formData.append('tags', JSON.stringify(postInfo.value.tags));
-        let ImgList = []
-        if (postInfo.value.images) {
-          postInfo.value.images.forEach(item => {
-            ImgList.push(item?.raw);
-          })
-        }
-        console.log(ImgList)
-        formData.append('images', JSON.stringify(ImgList));
-        let res=(await CreatePost(formData)).data
-        console.log(res)
-        ElMessage({
-          type: 'success',
-          message: '发布成功',
-        })
-        isLoading.value = false
+  .then(async () => {
+    isLoading.value = true
+    const formData = new FormData();
+    formData.append('title', postInfo.value.title);
+    formData.append('content', postInfo.value.content);
+    if(postInfo.value.tags){
+      postInfo.value.tags.forEach(tag => {
+        formData.append("tags", tag);  // 数组字段名使用 `tags[]`
+      });
+    }
+    if (postInfo.value.images) {
+      postInfo.value.images.forEach(item => {
+        formData.append("images", item.raw);
       })
-      .catch(() => {
-        ElMessage({
-          type: 'info',
-          message: '取消发布',
-        })
-      })
+    }
+    await CreatePost(formData)
+    await router.replace("/home")
+    ElMessage({
+      type: 'success',
+      message: '发布成功',
+    })
+    isLoading.value = false
+  })
+  .catch(() => {
+    ElMessage({
+      type: 'info',
+      message: '取消发布',
+    })
+  })
 }
 </script>
 <style scoped lang="scss">

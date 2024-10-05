@@ -1,31 +1,32 @@
-<script lang="ts">
-    export default {
-        name:"UserItem"
-    }
-</script>
 <template>
     <div class="UI-container">
         <div class="left-avatar">
-            <img src="../assets/imgs/avatar.jpg" alt="">
+            <img :src="useAuth.ImgUrl+userInfo['avatar_url']" alt="">
         </div>
         <div class="center-data">
-            <span class="username">ScopeLens</span>
-            <span class="post-num">发帖数:1000万</span>
+            <span class="username">{{userInfo['nickname']}}</span>
+            <div>
+              <span>粉丝数：{{userInfo['followers_count']}}</span>|<span>关注数：{{userInfo['following_count']}}</span>
+            </div>
         </div>
         <div class="right-nav">
-            <button>关注</button>
+<!--            <button>关注</button>-->
         </div>
     </div>
 </template>
-<script setup lang="ts">
-    defineProps(["UserInfo"])
+<script setup>
+import {watch,toRefs} from 'vue'
+import {useAuthStore} from "../stores/authStore.js";
+
+const useAuth=useAuthStore()
+const props=defineProps(["userInfo"])
+
 </script>
 <style scoped>
 .UI-container{
     width: 95%;
     height: 140px;
   margin: 0 auto 20px;
-  /* padding: 20px; */
     border-radius: 20px;
     display: flex;
     justify-content: space-between;
@@ -45,6 +46,8 @@
     width: 100px;
     height: 100px;
     margin: 20px;
+    object-position: top;
+    object-fit: cover;
     border-radius: 20px;
   }
 

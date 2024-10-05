@@ -23,10 +23,12 @@ import { ref } from 'vue';
 import CookieTool from '../utils/cookie.js';
 import { useRouter } from 'vue-router';
 import {noAuthLogin} from "../http/api/noAuthApi.js";
+import {useAuthStore} from "../stores/authStore";
 
 const isLoading=ref(false)
 const dialogVisible=ref(false);
 const router=useRouter();
+const useAuth=useAuthStore()
 const formInfo=ref({
   username:"",
   password:"",
@@ -34,11 +36,11 @@ const formInfo=ref({
 const submitInfo=async ()=>{
   if(formInfo.value.password===""||formInfo.value.username==="")return
   isLoading.value=true
-  let data=(await noAuthLogin({
+  const res=(await noAuthLogin({
     "username":formInfo.value.username,
     "password":formInfo.value.password
   })).data
-  localStorage.setItem("token",data.data.token)
+  useAuth.login(res)
   isLoading.value=false
   await router.push("/home")
 }

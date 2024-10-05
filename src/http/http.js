@@ -12,10 +12,10 @@ const http ={
         if(params) config.params = params
         return request(config)
     },
-    post(url,params,headers,formData){
+    post(url,params,headers={}){
         const config = {
             method: 'post',
-            url:url
+            url:url,
         }
         if(params) config.data = params
         if(headers) config.headers = headers

@@ -2,43 +2,46 @@
     <div class="container" @click="toDetail">
         <div class="header">
             <div class="content">
-                <h3>{{ data.title }}</h3>
-                <span>{{ data.content }}</span>
+                <h3>{{ data['title'] }}</h3>
+                <span>{{ data['content'] }}</span>
             </div>
             <div class="tag">
-                <span v-for="(item, index) in data.tag" :key="index">{{ item }}</span>
+                <span v-for="(item, index) in data['tags']" :key="index">#{{ item }}</span>
             </div>
         </div>
         <div class="body">
-            <img v-for="(item, index) in data.img" :key="index" :src="item">
+            <img v-for="(item, index) in data['images']" :key="index" :src="useAuth.ImgUrl+item">
         </div>
         <div class="footer">
             <div class="left">
-                <span><i class="iconfont icon-kanguo"></i>{{ data.watch }}</span>
-                <span><i class="iconfont icon-dianzan"></i>{{ data.like }}</span>
-                <span><i class="iconfont icon-huifu"></i>{{ data.reply }}</span>
-                <span><i class="iconfont icon-shoucang"></i>{{ data.star }}</span>
+                <span><i class="iconfont icon-kanguo"></i>{{ data['views_count'] }}</span>
+                <span><i class="iconfont icon-dianzan"></i>{{ data['likes_count'] }}</span>
+                <span><i class="iconfont icon-huifu"></i>{{ data['reply_count'] }}</span>
+                <span><i class="iconfont icon-shoucang"></i>{{ data['favorites_count'] }}</span>
             </div>
             <div class="right">
-                <span class="author">{{ data.author }}</span>
-                <span class="date">{{ data.date }} </span>
+                <span class="author">{{ data['nickname'] }}</span>
+                <span class="date">{{ handleDate(data['updated_at']) }} </span>
             </div>
         </div>
     </div>
 </template>
-<script setup lang="ts">
+<script setup>
 import {useRouter } from 'vue-router';
+import {useAuthStore} from "../stores/authStore.js";
+import {handleDate} from "../utils/date.js";
 
-    const router=useRouter();
-    let props=defineProps(["data"]);
-    function toDetail(){
-        router.push({
-            path:'/post',
-            query:{
-                id:props.data.id
-            }
-        })
-    }
+const useAuth=useAuthStore()
+const router=useRouter();
+let props=defineProps(["data"]);
+function toDetail(){
+    router.push({
+        path:'/post',
+        query:{
+            post_id:props.data['post_id']
+        }
+    })
+}
 </script>
 <style scoped lang="scss">
 .container{

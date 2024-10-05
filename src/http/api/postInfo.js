@@ -21,3 +21,9 @@ export const AddLikesCount=(params) =>{
 export const DelLikesCount=(params) =>{
     return http.post(rootPath+partPath+"/del-like", params);
 }
+export const AddRepliesCount=(params) =>{
+    return http.post(rootPath+partPath+"/add-reply", params);
+}
+export const DelRepliesCount=(params) =>{
+    return http.post(rootPath+partPath+"/del-reply", params);
+}

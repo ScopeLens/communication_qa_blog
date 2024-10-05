@@ -18,11 +18,11 @@ export const GetFollowers=(params) =>{
 export const GetFollowing=(params) =>{
     return http.post(rootPath+partPath+"/following", params);
 }
-export const ShowFavorite=(params) =>{
-    return http.post(rootPath+partPath+"/show-favorites", params);
+export const ShowFavorite=() =>{
+    return http.post(rootPath+partPath+"/show-favorites", {});
 }
-export const ShowView=(params) =>{
-    return http.post(rootPath+partPath+"/show-views", params);
+export const ShowView=() =>{
+    return http.post(rootPath+partPath+"/show-views", {});
 }
 export const GetRepliesToMyComments=(params) =>{
     return http.post(rootPath+partPath+"/show-message", params);
