@@ -9,6 +9,14 @@ export const noAuthLogin=(params)=>{
 export const noAuthRegister=(params) =>{
     return http.post(noAuthPath+"/register", params);
 }
+
+export const IsUsernameExist=(params) =>{
+    return http.get("/verify-username",params);
+}
+
+export const VerifyCode=(params) =>{
+    return http.post(noAuthPath+"/verify-code",params);
+}
 //获取用户数据
 
 //其实，也不一定就是params，也可以是 query 还有 data 的呀！

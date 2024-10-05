@@ -8,21 +8,21 @@
         <div class="title-bg">
             <h2 class="title">欢迎来到LensPark</h2>
         </div>
-        <form action="#">
+        <form>
             <label>
               昵称：<input type="text" v-model="formData.nickname" required placeholder="请输入昵称">
-              <span class="tips" style="position:absolute">昵称违反规范</span>
+              <span class="tips" v-if="warningType===1" style="position:absolute">昵称违反规范</span>
             </label>
             <label>
               账号：<input type="text" v-model="formData.username" required placeholder="请输入账号">
-              <span class="tips" style="position:absolute">账号已存在</span>
+              <span class="tips" v-if="warningType===2" style="position:absolute">账号已存在</span>
             </label>
             <label>
               密码：<input type="password" v-model="formData.password" required placeholder="请输入密码" autocomplete="off">
             </label>
             <label>
               密码：<input type="password" v-model="formData.rePassword" required placeholder="请重复密码" autocomplete="off">
-              <span class="tips" style="position:absolute">请保证输入密码一致</span>
+              <span class="tips" v-if="warningType===3" style="position:absolute">请保证输入密码一致</span>
             </label>
             <label>
             邮箱：<input type="email" v-model="formData.email" required placeholder="请填入邮箱">
@@ -42,6 +42,7 @@
           </label>
           <label>
             验证码：<input type="text" v-model="formData.verifyCode" required placeholder="请填入验证码">
+            <span class="tips" v-if="warningType===4" style="position:absolute">验证码错误</span>
           </label>
             <button @click="submitInfo">注册</button>
         </form>
@@ -49,6 +50,7 @@
 </template>
 <script setup>
 import{ref } from 'vue'
+import {IsUsernameExist, noAuthRegister, VerifyCode} from "../http/api/noAuthApi.js";
 
 const countdown=ref(0)
 const timer=ref()
@@ -60,6 +62,8 @@ const formData=ref({
   email:"",
   verifyCode:"",
 })
+const warningType=ref(0)
+
 
 const sendCode=()=>{
   countdown.value=60
@@ -68,8 +72,30 @@ const sendCode=()=>{
     if(countdown.value===0)clearInterval(timer.value)
   },1000)
 }
-const submitInfo=()=>{
-  console.log(formData.value)
+const submitInfo=async () => {
+  if(formData.value.password!==formData.value.rePassword){
+    warningType.value=3
+    return
+  }
+  if(!(await IsUsernameExist({username:formData.value.username})).data){
+    warningType.value=2
+    return
+  }
+
+  if(!(await VerifyCode({email:formData.value.email,code:formData.value.verifyCode})).data){
+    warningType.value=4
+    return
+  }
+  noAuthRegister({
+    username: formData.value.username,
+    nickname: formData.value.nickname,
+    email:formData.value.email,
+    password:formData.value.password,
+  }).then(res=>{
+    console.log(res)
+  }).catch(error=>{
+    console.log(error)
+  })
 }
 </script>
 <style>
