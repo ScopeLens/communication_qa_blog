@@ -1,5 +1,5 @@
 <template>
-    <div class="Rg-container">
+    <div class="Rg-container" v-loading="isLoading">
         <div class="title-bg">
             <h2 class="title">欢迎来到LensPark</h2>
         </div>
@@ -46,9 +46,12 @@
 <script setup>
 import{ref } from 'vue'
 import {IsUsernameExist, noAuthRegister, SendVerificationEmail, VerifyCode} from "../http/api/noAuthApi.js";
+import {useRouter} from "vue-router";
 
+const isLoading=ref(false)
 const countdown=ref(0)
 const timer=ref()
+const router=useRouter()
 const formData=ref({
   nickname:"",
   username:"",
@@ -76,6 +79,11 @@ const submitInfo=async () => {
     warningType.value=3
     return
   }
+
+  if(!IsEmail(formData.value.email)){
+    return
+  }
+
   if(!(await IsUsernameExist({username:formData.value.username})).data){
     warningType.value=2
     return
@@ -85,17 +93,33 @@ const submitInfo=async () => {
     warningType.value=4
     return
   }
+  isLoading.value=true
   noAuthRegister({
     username: formData.value.username,
     nickname: formData.value.nickname,
     email:formData.value.email,
     password:formData.value.password,
   }).then(res=>{
-    console.log(res)
-  }).catch(error=>{
-    console.log(error)
+    isLoading.value=false
+    if(res.status!==200){
+      ElMessage.error('注册失败')
+      return
+    }
+    ElMessage({
+      message: '恭喜您，注册成功',
+      type: 'success',
+    })
+    router.replace("/login")
+  }).catch(err=>{
+    console.log(err)
   })
 }
+
+function IsEmail(str) {
+  const reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+  return  reg.test(str);
+}
+
 </script>
 <style>
 .Rg-container{

@@ -36,13 +36,25 @@ const formInfo=ref({
 const submitInfo=async ()=>{
   if(formInfo.value.password===""||formInfo.value.username==="")return
   isLoading.value=true
-  const res=(await noAuthLogin({
+  noAuthLogin({
     "username":formInfo.value.username,
     "password":formInfo.value.password
-  })).data
-  useAuth.login(res)
-  isLoading.value=false
-  await router.push("/home")
+  }).then(res=>{
+    isLoading.value=false
+    if(res.status!==200){
+      ElMessage.error('登录失败')
+      return
+    }
+    ElMessage({
+      message: '登录成功.',
+      type: 'success',
+    })
+    useAuth.login(res.data)
+    router.push("/home")
+  }).catch(err=>{
+    console.log(err)
+  })
+
 }
 </script>
 <style scoped lang="scss">

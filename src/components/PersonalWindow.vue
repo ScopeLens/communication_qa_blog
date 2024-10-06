@@ -23,7 +23,6 @@ import {SearchUsersByUsername} from "../http/api/search.js";
 const isLoading=ref(false);
 const useAuth=useAuthStore()
 const router=useRouter()
-const identity=ref({})
 watch(()=>useAuth.isLoggedIn,async (newValue) => {
   if (newValue) {
     await InfoInit()

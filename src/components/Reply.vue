@@ -21,12 +21,21 @@ const replyContent=ref()
 const sendReply=async () => {
   if (replyContent.value === "") return
   isLoading.value = true
-  await AddRepliesCount({
+  AddRepliesCount({
     "post_id":props.post_id,
     "content":replyContent.value,
     "parent_id":props.comment_id
+  }).then(res=>{
+    if(res.status!==200){
+      ElMessage.error('回复失败.')
+    }else{
+      replyContent.value = ""
+      ElMessage({
+        message: '回复成功.',
+        type: 'success',
+      })
+    }
   })
-  replyContent.value = ""
   isLoading.value = true
 }
 </script>
@@ -39,6 +48,7 @@ const sendReply=async () => {
   .info img{
     width: 70px;
     height: 70px;
+    object-fit: cover;
     border-radius: 50%;
     margin-right: 10px;
   }
@@ -46,7 +56,6 @@ const sendReply=async () => {
   .nav{
     display: flex;
     flex-direction: column;
-    align-items: right;
     flex-grow: 1;
 
     button{

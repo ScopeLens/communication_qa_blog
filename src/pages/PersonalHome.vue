@@ -9,10 +9,10 @@
                     <span>粉丝数:{{useAuth.FollowersCount}}</span>
                     <span>关注数:{{useAuth.FollowingCount}}</span>
                 </div>
-                <div class="nav">
-                    <button>编辑</button>
-                    <button>上传头像</button>
-                </div>
+<!--                <div class="nav">-->
+<!--                    <button>编辑</button>-->
+<!--                    <button>上传头像</button>-->
+<!--                </div>-->
             </div>
         </div>
         <PostList :postList="postList"></PostList>

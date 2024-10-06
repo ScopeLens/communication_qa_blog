@@ -54,6 +54,15 @@ const confirmEvent = () => {
   DelRepliesCount({
     post_id:props.comment['post_id'],
     comment_id:props.comment['comment_id'],
+  }).then(res=>{
+    if(res.status!==200){
+      ElMessage.error('删除失败.')
+    }else{
+      ElMessage({
+        message: '删除成功.',
+        type: 'success',
+      })
+    }
   })
 }
 

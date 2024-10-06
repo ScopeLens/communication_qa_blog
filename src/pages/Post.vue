@@ -128,8 +128,17 @@ const handleFavorite=()=>{
     }
 }
 const confirmEvent = () => {
-  DeletePost(params.value)
-  router.go(-1)
+  DeletePost(params.value).then(res=>{
+    if(res.status!==200){
+      ElMessage.error('删除失败.')
+    }else{
+      ElMessage({
+        message: '删除成功.',
+        type: 'success',
+      })
+      router.go(-1)
+    }
+  })
 }
 onMounted(async () => {
   isLoading.value = true;
