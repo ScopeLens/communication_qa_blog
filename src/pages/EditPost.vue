@@ -96,6 +96,7 @@ import { ref } from 'vue';
 import { Delete, Download, Plus, ZoomIn } from '@element-plus/icons-vue'
 import {CreatePost} from "../http/api/post.js";
 import {useRouter} from "vue-router";
+import {ElMessageBox} from "element-plus";
 
 const router=useRouter();
 const isLoading=ref(false)

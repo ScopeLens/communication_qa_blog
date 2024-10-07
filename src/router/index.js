@@ -35,7 +35,7 @@ const router = createRouter({
         },
         {
             path: '/userlist',
-            component: () => import("../pages/UserList.vue")
+            component: () => import("../pages/UserShowList.vue")
         },
         {
             path: '/postlist',
@@ -58,7 +58,15 @@ const router = createRouter({
         {
             path: '/register',
             component: () => import("../pages/Register.vue")
-        }
+        },
+        {
+            path: '/followers',
+            component: () => import("../pages/followers.vue")
+        },
+        {
+            path: '/followings',
+            component: () => import("../pages/followings.vue")
+        },
     ]
 })
 

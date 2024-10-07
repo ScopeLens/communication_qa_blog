@@ -1,7 +1,7 @@
 <template>
-    <div class="UL-container" v-loading="isLoading" v-if="userList.length">
-        <UserItem v-for="(item,index) in userList" :userInfo="item" :key="index">{{item}}</UserItem>
-    </div>
+  <div class="UL-container" v-loading="isLoading" v-if="userList.length">
+    <UserItem v-for="(item,index) in userList" :userInfo="item" :key="index">{{item}}</UserItem>
+  </div>
 </template>
 <script setup>
 import UserItem from '../components/UserItem.vue';
@@ -30,7 +30,7 @@ onMounted(async () =>{
 </script>
 <style>
 .UL-container{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 </style>

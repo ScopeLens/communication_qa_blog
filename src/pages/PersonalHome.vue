@@ -6,15 +6,51 @@
             <div class="detail">
                 <h2>{{ useAuth.Nickname }}</h2>
                 <div class="Ftwo">
-                    <span>粉丝数:{{useAuth.FollowersCount}}</span>
-                    <span>关注数:{{useAuth.FollowingCount}}</span>
+                    <span @click="toFollowers">粉丝数:{{useAuth.FollowersCount}}</span>
+                    <span @click="toFollowing">关注数:{{useAuth.FollowingCount}}</span>
                 </div>
-<!--                <div class="nav">-->
-<!--                    <button>编辑</button>-->
-<!--                    <button>上传头像</button>-->
-<!--                </div>-->
+                <div class="nav">
+                    <button @click="dialogFormVisible = true">编辑信息</button>
+                    <el-upload
+                        class="avatar-uploader"
+                        :show-file-list="false"
+                        :auto-upload="false"
+                        :on-change="uploadAvatar"
+                    >
+                    <button>上传头像</button>
+                    </el-upload>
+                </div>
             </div>
         </div>
+        <el-dialog v-model="dialogFormVisible" title="个人信息" width="500">
+          <div>用户名</div>
+          <el-input
+              v-model="formData.text"
+              maxlength="10"
+              placeholder="昵称"
+              show-word-limit
+              type="text"
+          />
+          <div style="margin: 20px 0" />
+          <div>个性签名</div>
+          <el-input
+              v-model="formData.textarea"
+              maxlength="30"
+              placeholder="签名表明态度，我想我可以更酷..."
+              show-word-limit
+              type="textarea"
+          />
+          <template #footer>
+            <div class="dialog-footer">
+              <el-button @click="dialogFormVisible = false">
+                取消
+              </el-button>
+              <el-button type="primary" @click="dialogFormVisible = false">
+                保存
+              </el-button>
+            </div>
+          </template>
+        </el-dialog>
         <PostList :postList="postList"></PostList>
     </div>
 </template>
@@ -23,10 +59,32 @@ import {onMounted, ref} from 'vue'
 import PostList from '../components/PostList.vue';
 import {SearchPostsByUsername} from "../http/api/search";
 import {useAuthStore} from "../stores/authStore";
+import {UpdateAvatar} from "../http/api/personalInfo.js";
+import {useRouter} from "vue-router";
 
 const isLoading=ref(false);
 const postList=ref([])
 const useAuth=useAuthStore()
+const dialogFormVisible=ref(false)
+const formData=ref({
+  text:"",
+  textarea:""
+})
+const router=useRouter()
+
+const uploadAvatar=(file)=>{
+  const formData = new FormData();
+  formData.append('avatar', file.raw);
+  UpdateAvatar(formData)
+}
+
+const toFollowers=()=>[
+  router.push("/followers")
+]
+
+const toFollowing=()=>[
+  router.push("/followings")
+]
 
 async function DataInit() {
   isLoading.value = true
@@ -79,6 +137,8 @@ onMounted(()=>{
       width: 180px;
       display: flex;
       justify-content: space-evenly;
+      cursor:pointer;
+
     }
 
     .nav{
