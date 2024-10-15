@@ -4,7 +4,6 @@ import { defineStore } from 'pinia';
 export const useAuthStore = defineStore('auth', {
     state: () => ({
         isLoggedIn: !!localStorage.getItem('token'),
-        // isLoggedIn: true,
         ImgUrl:"http://localhost:105",
         Username:'',
         Nickname:'',

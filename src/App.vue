@@ -9,6 +9,7 @@
                 <Search target="搜索用户" :sendTarget="toUserList"></Search>
                 <router-link v-if="isShow" to="/editpost">发布博文</router-link>
                 <router-link v-else to="/login" replace>登录</router-link>
+                <router-link v-if="isLimit" to="/login" replace>小黑屋</router-link>
             </div>
             <div class="banner"></div>
         </div>
@@ -29,6 +30,7 @@ import Search from './components/Search.vue';
 import PersonalWindow from './components/PersonalWindow.vue';
 import { computed } from 'vue';
 import {useAuthStore} from "./stores/authStore";
+import {GetPower} from "./http/api/authority.js";
 
 const useAuth=useAuthStore();
 const router=useRouter();
@@ -36,6 +38,10 @@ const router=useRouter();
     let isShow=computed(()=>{
         return useAuth.isLoggedIn
     })
+
+const isLimit=()=>{
+  return (await GetPower()).data
+}
 
     function toPostList(value: string){
         router.replace({

@@ -40,15 +40,16 @@ const submitInfo=async ()=>{
     "username":formInfo.value.username,
     "password":formInfo.value.password
   }).then(res=>{
-    isLoading.value=false
     if(res.status!==200){
       ElMessage.error('登录失败')
+      isLoading.value=false
       return
     }
     ElMessage({
       message: '登录成功.',
       type: 'success',
     })
+    isLoading.value=false
     useAuth.login(res.data)
     router.push("/home")
   }).catch(err=>{

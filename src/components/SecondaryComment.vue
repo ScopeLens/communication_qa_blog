@@ -12,8 +12,7 @@
         <span class="date">{{ data.date }}</span>
     </div>
 </template>
-<script setup lang="ts">
-    let props=defineProps(["data"]);
+<script setup lang="ts">defineProps(["data"]);
     function reply(){
 
     }
